@@ -1,5 +1,5 @@
 
-version: "3.9"
+version: "3.8"
 
 services:
   pg_tileserv:
@@ -11,20 +11,11 @@ services:
       - DATABASE_URL=${DATABASE_URL}
     networks:
       - app_net
-  nginx:
-    container_name: nginx
-    image: nginx:1.19.6
-    ports:
-      - 8001:8001
-    volumes:
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
-    networks:
-      - app_net
   varnish:
     container_name: varnish
     image: varnish:6.5.1
     ports:
-      - 80
+      - ${PORT}:80
     volumes:
       - ./varnish/default.vcl/:/etc/varnish/default.vcl
     networks:
