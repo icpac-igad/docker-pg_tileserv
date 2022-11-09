@@ -9,7 +9,7 @@ services:
     environment:
       - DATABASE_URL=${DATABASE_URL}
   varnish:
-    container_name: ${TILESERVE_CNTR_NAME:-varnish}
+    container_name: ${VARNISH_CNTR_NAME:-varnish}
     image: varnish
     ports:
       - ${HOST_IP:-172.17.0.1}:${VARNISH_PORT}:80
