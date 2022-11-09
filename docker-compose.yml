@@ -5,13 +5,13 @@ services:
     container_name: ${TILESERVE_CNTR_NAME:-pg-tileserv}
     image: pramsey/pg_tileserv
     ports:
-      - ${HOST_IP:-172.17.0.1}:${TILESERV_PORT}:7800
+      - ${HOST_IP:-172.17.0.1}:${TILESERV_PORT:-7800}:7800
     environment:
       - DATABASE_URL=${DATABASE_URL}
   varnish:
     container_name: ${VARNISH_CNTR_NAME:-varnish}
     image: varnish
     ports:
-      - ${HOST_IP:-172.17.0.1}:${VARNISH_PORT}:80
+      - ${HOST_IP:-172.17.0.1}:${VARNISH_PORT:-7900}:80
     volumes:
       - ./varnish/default.vcl/:/etc/varnish/default.vcl
