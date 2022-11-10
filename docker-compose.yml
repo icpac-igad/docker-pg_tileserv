@@ -8,6 +8,7 @@ services:
       - ${HOST_IP:-172.17.0.1}:${TILESERV_PORT:-7800}:7800
     environment:
       - DATABASE_URL=${DATABASE_URL}
+      - TS_BASEPATH=${TILESERV_BASE_PATH:-}
       - TZ=${TZ:-Africa/Nairobi}  # for log timestamping
   varnish:
     container_name: ${VARNISH_CNTR_NAME:-varnish}
