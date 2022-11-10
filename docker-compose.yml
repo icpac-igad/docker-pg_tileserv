@@ -14,8 +14,9 @@ services:
     container_name: ${VARNISH_CNTR_NAME:-varnish}
     image: varnish:alpine
     ports:
-      - ${HOST_IP:-172.17.0.1}:${VARNISH_PORT:-7900}:80
+      - ${HOST_IP:-172.17.0.1}:${VARNISH_HOST_PORT:-7900}:${VARNISH_APP_PORT:-8080}
     volumes:
       - ./varnish/default.vcl/:/etc/varnish/default.vcl
     environment:
       - VARNISH_SIZE=${VARNISH_SIZE:-2G}
+      - VARNISH_HTTP_PORT=${VARNISH_APP_PORT}
