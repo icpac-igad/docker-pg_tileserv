@@ -1,24 +1,22 @@
-
-version: "3.8"
+version: "3.9"
 
 services:
   pg_tileserv:
-    container_name: pg_tileserv
-    image: pramsey/pg_tileserv:20201211
+    container_name: ${TILESERVE_CNTR_NAME:-pg-tileserv}
+    image: pramsey/pg_tileserv
     ports:
-      - 7800
+      - ${HOST_IP:-172.17.0.1}:${TILESERV_PORT:-7800}:7800
     environment:
       - DATABASE_URL=${DATABASE_URL}
-    networks:
-      - app_net
+      - TS_BASEPATH=${TILESERV_BASE_PATH:-}
+      - TZ=${TZ:-Africa/Nairobi}  # for log timestamping
   varnish:
-    container_name: varnish
-    image: varnish:6.5.1
+    container_name: ${VARNISH_CNTR_NAME:-varnish}
+    image: varnish:alpine
     ports:
-      - ${PORT}:80
+      - ${HOST_IP:-172.17.0.1}:${VARNISH_HOST_PORT:-7900}:${VARNISH_APP_PORT:-8080}
     volumes:
       - ./varnish/default.vcl/:/etc/varnish/default.vcl
-    networks:
-      - app_net
-networks: 
-  app_net:
+    environment:
+      - VARNISH_SIZE=${VARNISH_SIZE:-2G}
+      - VARNISH_HTTP_PORT=${VARNISH_APP_PORT:-8080}
